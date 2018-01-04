@@ -1,0 +1,31 @@
+/*
+ *
+ *	Partie concernant la page de sélection des contact lors d'une alerte.
+ *	
+ */
+ /*Pour les balises alignées à gauche*/
+.SelectionContactGauche { 
+	width:70%;
+	float:left;
+}
+/*Pour les balises alignées à droite*/
+.SelectionContactDroite {
+	width:10%;		
+	float:right;
+	text-align : right;
+}
+
+/*Pour les balises alignées à droite, mais uniquement celles que l'on ajoute*/
+.SelectionContactDroite.ligneAEnlever {
+	padding-bottom : 2%; /*Permet d'aligner les boutons*/
+}
+
+
+
+.colorationDesOnglet{
+	background-color: 		#3388cc /*{a-active-background-color}*/;
+	border-color:	 		#3388cc /*{a-active-border}*/;
+	color: 					#fff /*{a-active-color}*/;
+	text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #005599 /*{a-active-shadow-color}*/;
+}
+

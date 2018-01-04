@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<html>
+    <head>
+	
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+        <title>Application jQuery Mobile</title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css" />
+		<script type="text/javascript" src="js/jquery-1.12.3.js"></script>
+		<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+    </head>
+    <body>
+        <div class="app">
+		
+            <h1>Blackberry WebWorks</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">WebWorks Ready</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/alerte.js"></script>
+		<!-- Page accueil : Sélection du site -->		
+		<section id="pageAccueil" data-role="page">
+			<header data-role="header" data-position="fixed"><h1>Accueil</h1></header>
+			<div class="content" data-role="content" id="contentSite">
+			<h1>Sites</h1>
+				<ul data-role="listview" data-inset="true" id="choixSite">
+					<!--Popup de sélection d'un évènement. -->
+					<div id="popupMenu" data-role="popup" data-theme="b">
+						<ul style="min-width: 210px;" data-role="listview" data-inset="true">
+							<li data-role="list-divider">Choix de l'evenement</li>
+							<li><a onclick="afficheContact(0)" href="#pageChoixContacts">Incendie & Explosion</a></li>
+							<li><a onclick="afficheContact(1)" href="#pageChoixContacts">Deversement & Pollution</a></li>
+							<li><a onclick="afficheContact(2)" href="#pageChoixContacts">Evenement naturel</a></li>
+							<li><a onclick="afficheContact(3)" href="#pageChoixContacts">Accident grave a personne</a></li>
+							<li><a onclick="afficheContact(4)" href="#pageChoixContacts">Autre</a></li>
+						</ul>
+					</div>				
+				</ul>
+				<br />
+				<br />
+				<hr />
+				<h1>Parametres</h1>
+				<ul data-role="listview" data-inset="true">
+					<li data-role="button"><a href="#pageParaSite">Mes Sites</a></li>
+					<li data-role="button"><a id="pageParaRedirectContact" href="#pageParaContact">Mes Contacts</a></li>
+					<li data-role="button"><a id="pageParaRedirectListes" href="#pageParaListes">Mes Listes</a></li>
+				</ul>
+				<hr />
+				<a data-role="button" onclick="reinitialisation()">Reinitialiser</a>				
+			</div>
+		</section>
+				
+		<!-- Page choix des contacts -->
+		<section id="pageChoixContacts" data-role="page">
+			<header data-role="header" data-position="fixed" data-add-back-btn="true"><h1 id="titreEveSelect"></h1></header>
+			<div class="content" data-role="content" id="contentChoixContact">
+				<div width="100%" id="tableChoixContact" >
+					<div class="SelectionContactGauche SelectionContactHauteur">Choix des contacts</div>
+					<div class="SelectionContactDroite SelectionContactHauteur">Rappel ?</div>
+				</div>
+			</div>
+			<footer data-role="footer" data-position="fixed" class="ui-btn" onclick="validerSelectionContact()">Continuer</footer>
+		</section>
+		
+		<!-- Page Récapitulatif -->
+		<section id="pageRecapitulatif" data-role="page">
+			<header data-role="header" data-position="fixed" data-add-back-btn="true"><h1>Recapitulatif</h1></header>
+			<div class="content" data-role="content">
+				<label for="recapTextSite">Site : </label><input type="text" id="recapTextSite"/>
+				<label for="recapTextEve">Evenement : </label><input type="text" id="recapTextEve"/>
+				<label for="recapTextPreci">Precision : </label><input type="textarea" id="recapTextPreci"/>
+				<table border="1"><tr><td>Liste contactee : <div id="recapListeContact"></div></td>
+				<td>Doit rappeler : <div id="recapListeRappel"></div></td></tr></table>
+			</div>
+			<footer data-role="footer" data-position="fixed" class="ui-btn" onclick="envoiMail()">Envoyer</footer>
+		</section>
+		
+		<!-- Page Parametre Sites -->
+		<section id="pageParaSite" data-role="page">
+			<header data-role="header" data-position="fixed"><h1>Mes Sites</h1></header>
+			<div class="content" data-role="content" id="contentParaSite">
+				<h2 class="ui-btn-inline">Sites</h2>
+				<a class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-home ui-btn-icon-left ui-btn-a" href="#popupSite" data-rel="popup" data-position-to="window" data-transition="pop">Ajouter un site</a>
+				<div class="ui-corner-all" id="popupSite" data-role="popup" data-theme="a">	
+						<div style="padding: 10px 20px;">
+							<h3>Veuillez entrer le nom du site.</h3>	
+							<input name="nomSite" id="inputNomSite" type="text" placeholder="Nom du Site" data-theme="a">
+							<button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" onclick="ajoutSite();" >Ajouter</button>
+						</div>
+				</div>				
+			</div>
+			<footer data-role="footer" data-position="fixed" class="ui-btn" onclick="rafraichir()">Enregistrer</footer>
+		</section>
+		
+		<!-- Page parametre contact -->
+		<section id="pageParaContact" data-role="page">
+			<header data-role="header" data-position="fixed"><h1>Mes Contacts</h1></header>
+			<div class="content" data-role="content" id="contentContactPara">
+				<a class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-home ui-btn-icon-left ui-btn-a" href="#popupAjoutContact" data-rel="popup" data-position-to="window" data-transition="pop">Ajouter un contact</a>
+				<div class="ui-corner-all" id="popupAjoutContact" data-role="popup" data-theme="a">
+						<div style="padding: 10px 20px;">
+							<h3>Ajout d'un contact</h3>	
+							<input name="idContact" id="inputIdContact" type="text" placeholder="Id du contact" data-theme="a">
+							<a href="#popupSelectSite" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" onclick="valideId();">Open panel</a>
+						</div>
+				</div>
+				<div data-role="popup" id="popupSelectSite" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+					<p style="text-align:center; color:white;" id="idSelectionne">Identifiant</p>
+					<input name="nomContact" id="inputNomContact" type="text" placeholder="Nom du contact" data-theme="a" data-mini="true">
+					<input name="prenomContact" id="inputPrenomContact" type="text" placeholder="Prenom du contact" data-theme="a" data-mini="true">
+					<input name="mailContact" id="inputMailContact" type="text" placeholder="Mail du contact" data-theme="a" data-mini="true">
+					<input name="telContact" id="inputTelContact" type="text" placeholder="Tel du contact" data-theme="a" data-mini="true">
+					<div data-role="tabs" id="tabs-selectSite">
+						<div data-role="navbar">
+							<ul id="tabsSelectionSite" class="ui-inline">
+								<!-- Onglets -->
+							</ul>
+						</div>
+						<!-- Contenu des onglets -->
+					</div>
+					<button class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-check" onclick="ajoutContact()">Ajouter</button>
+				</div>
+				<div data-role="popup" id="popupAfficheInfo-Contact">
+				<!-- popup d'information sur un contact -->
+					<p id="idPopupAfficheInfo-Contact"></p>
+					<p id="nomPopupAfficheInfo-Contact"></p>
+					<p id="prenomPopupAfficheInfo-Contact"></p>
+					<p id="mailPopupAfficheInfo-Contact"></p>
+					<p id="telPopupAfficheInfo-Contact"></p>
+					<button onclick="$('#popupAfficheInfo-Contact').popup('close')">Fermer</button>
+				</div>
+			</div>
+			<footer data-role="footer" data-position="fixed" class="ui-btn" onclick="rafraichir()">Enregistrer</footer>
+		</section>
+
+		<!-- Page parametre listes -->
+		<section id="pageParaListes" data-role="page">
+			<header data-role="header" data-position="fixed" data-add-back-btn="true"><h1>Mes Listes</h1></header>
+			<div class="content" data-role="content">
+				<div data-role="tabs" id="listetabs">
+					<div data-role="navbar">
+						<ul id="tabsSiteListes" class="ui-inline">
+							<!-- Onglets -->
+						</ul>
+					</div>
+					<!-- Contenu des onglets -->
+				</div>
+				<div data-role="popup" id="popupAfficheInfo-Listes">
+				<!-- popup d'information sur un contact -->
+					<p id="idPopupAfficheInfo-Listes"></p>
+					<p id="nomPopupAfficheInfo-Listes"></p>
+					<p id="prenomPopupAfficheInfo-Listes"></p>
+					<p id="mailPopupAfficheInfo-Listes"></p>
+					<p id="telPopupAfficheInfo-Listes"></p>
+					<button onclick="$('#popupAfficheInfo-Listes').popup('close')">Fermer</button>
+				</div>
+				<div data-role="popup" id="popupAjoutContactListe">
+					<p style="text-align:center">Selectionner un contact</p>
+					<hr />
+				</div>
+				
+			</div>
+		</section>
+	</body>
+</html>
